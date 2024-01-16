@@ -1,2 +1,7 @@
-# backjoon_programmers
-This is a auto push repository for Baekjoon Online Judge & Programmers created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+# 백준 & 프로그래머스
+---
+## study
+
+- 꾸준히 풀려고 노력(...)하기
+- 기반 언어 : `Java 17` (향후에 `js` 도 추가 풀이할 의향 있음)
+- 1회독 때 내용들 곰곰히 생각하되, 심화되는 알고리즘은 공부하기
