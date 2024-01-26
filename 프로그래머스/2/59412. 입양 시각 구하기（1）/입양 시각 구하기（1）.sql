@@ -1,5 +1,5 @@
 -- 코드를 입력하세요
--- TYPE이 DATETIME 인 데이터에서 시간만 추출하려면 HOUR을 사용
+-- TYPE이 DATETIME 인 데이터에서 시간만 추출하려면 HOUR(DATETIME TYPE)을 사용
 SELECT 
     HOUR(DATETIME) AS HOUR,
     COUNT(DATETIME) AS 'COUNT'
