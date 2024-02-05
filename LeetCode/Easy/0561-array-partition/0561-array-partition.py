@@ -1,14 +1,9 @@
-class Solution {
-    public int arrayPairSum(int[] nums) {
-        Arrays.sort(nums); // 크기 순서대로 배열 재정렬
-        int sum = 0;
+class Solution:
+    def arrayPairSum(self, nums: List[int]) -> int:
+        nums.sort()  # 크기 순서대로 배열 재정렬
+        total_sum = 0
 
-        for (int i = 0; i < nums.length/2; i++) {
-            int min = Math.min(nums[2*i], nums[2*i + 1]);
+        for i in range(0, len(nums), 2):
+            total_sum += min(nums[i], nums[i + 1])
 
-            sum += min;
-        }
-
-        return sum;
-    }
-}
+        return total_sum
