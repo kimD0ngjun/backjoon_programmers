@@ -15,14 +15,12 @@ class Solution:
             check.append(node.val)
             node = node.next
         
-        reverse_check = list(reversed(check)) 
-        
         # 역순 노드 생성
-        reverse_node = ListNode()  # 더미 노드 생성
+        reverse_node = ListNode() 
         current = reverse_node
         
-        for val in reverse_check:
-            current.next = ListNode(val)
+        for i in range(len(check) - 1, -1, -1):
+            current.next = ListNode(check[i])
             current = current.next
         
         return reverse_node.next
