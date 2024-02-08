@@ -23,4 +23,6 @@ class Solution:
             current.next = ListNode(check[i])
             current = current.next
         
+        # 머리 노드(reverse_node)와 그 머리 노드의 포인터(reverse_node.next)만 알면
+        # 전체 연결 리스트를 알 수 있으므로 reverse_node.next를 리턴
         return reverse_node.next
