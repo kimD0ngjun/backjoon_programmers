@@ -3,6 +3,9 @@
 
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
+        if len(nums) is 1:
+            return [nums]
+        
         stack = [[nums, []]] # remaining, path
         result = []
 
