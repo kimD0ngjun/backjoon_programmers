@@ -8,7 +8,6 @@ class Solution:
             return [nums]
         
         stack = [[nums, []]] # remaining, path
-        result = []
         answer = []
         combination = set()
         
