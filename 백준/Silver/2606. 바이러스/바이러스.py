@@ -1,5 +1,3 @@
-# 그래프 문제는 기본적으로 별 얘기 없으면 양방향 그래프
-
 import sys
 
 graph = {}
@@ -16,7 +14,6 @@ def make_graph(key, value):
     else:
         graph[key] = [value]
     
-    # 양방향 고려
     if value in graph:
         graph[value].append(key)
     else:
@@ -24,14 +21,15 @@ def make_graph(key, value):
 
 # 반복문 DFS 함수
 def dfs():
-    discovered = []
+    discovered = set()
     stack.append(1)
     
     while stack:
         computer = stack.pop()
         
-        if computer not in discovered:
-            discovered.append(computer)
+        temp = len(discovered)
+        discovered.add(computer)
+        if len(discovered) is not temp:
             
             neighbors = graph.get(computer)
             if neighbors is not None:
