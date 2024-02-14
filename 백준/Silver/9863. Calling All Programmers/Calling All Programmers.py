@@ -23,8 +23,7 @@ def queue_chooser(callers, skip_num, count):
             else:
                 queue.append(popped)
 
-    answer.append(winner)
-    return answer
+    return winner
 
 # 입력 처리
 answers = []
@@ -36,7 +35,7 @@ while True:
     if callers == 0 and skip_num == 0 and count == 0:
         break
     
-    answers.extend(queue_chooser(callers, skip_num, count))
+    answers.append(queue_chooser(callers, skip_num, count))
 
 # 정답 출력
 for item in answers:
