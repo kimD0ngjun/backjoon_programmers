@@ -31,6 +31,7 @@ class Solution:
             # 현재의 왼쪽 서브트리도 균형 트리
             # 현재의 오른쪽 서브트리도 균형 트리
             # 즉, 모든 서브트리 역시 균형 트리여야 한다
+            # 이건 참조한 부분... 파이썬 클래스 문법에 대해 더 숙지해야 함..ㅠ
             return self.isBalanced(root.left) and self.isBalanced(root.right)
         
         return False
