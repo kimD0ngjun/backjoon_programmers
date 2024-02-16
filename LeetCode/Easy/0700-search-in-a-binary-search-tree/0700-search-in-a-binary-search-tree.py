@@ -17,6 +17,7 @@ class Solution:
             
             if node:
                 # 백트랙킹
+                # 그냥 노드의 값과 일치하면 바로 리턴하면 되잖...??
                 if node.val == val:
                     return node
                 
