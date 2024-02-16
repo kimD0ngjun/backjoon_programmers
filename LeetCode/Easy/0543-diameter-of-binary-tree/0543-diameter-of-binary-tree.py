@@ -6,30 +6,30 @@
 #         self.right = right
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        # 텅 빈 트리(초기값) 선언
-        self.diameter = 0
+        def dfs(root: TreeNode, diameter: List[int]) -> int:
+            # 탈출 조건
+            if not root:
+                return 0
         
-        # 계산이 될 경우, 해당 값으로 diameter 업데이트
-        self.dfs(root)
+            # 좌우로 나눠서 재귀(각각의 높이 산정)
+            left_depth = dfs(root.left, diameter)
+            right_depth = dfs(root.right, diameter)
         
-        return self.diameter
+            # 현재 시점의 직경 반환
+            # 지속적으로 직경 업데이트 하면서 최종적으로 루트 노드 직경 업데이트
+            diameter[0] = max(diameter[0], left_depth + right_depth)
 
-    # dfs 재귀
-    def dfs(self, root: TreeNode) -> int:
-        # 탈출조건
-        if not root:
-            return 0
+            return max(left_depth, right_depth) + 1
         
-        # '현재 단계'에서의 좌우 자식노드
-        left_depth = self.dfs(root.left)
-        right_depth = self.dfs(root.right)
+        # 지름 리스트 초기화
+        diameter = [0]
+        dfs(root, diameter)
         
-        # 깊이 값 동적 업데이트
-        self.diameter = max(self.diameter, left_depth + right_depth)
-        
-        # '현재 단계'에서 깊이 1씩 증가
-        return max(left_depth, right_depth) + 1
-        
-        
+        return diameter[0]
     
+    # diameter를 리스트로 사용한 이유는 Python의 한계 때문
+    # Python에서는 함수 내부에서 외부의 변수를 수정하기 위해서는 그 변수가 mutable(가변) 타입
+    # 리스트는 가변(mutable) 타입이기 때문에 리스트를 사용하여 diameter를 함수 내에서 수정 가능
+    # 단순 변수로 쓰려면 nonlocal 키워드를 써야 함
+
         
