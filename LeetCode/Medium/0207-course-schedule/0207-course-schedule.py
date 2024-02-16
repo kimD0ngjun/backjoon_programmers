@@ -1,4 +1,4 @@
-
+# 자력 x
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         graph = collections.defaultdict(list)
