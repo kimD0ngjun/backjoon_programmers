@@ -10,33 +10,6 @@ class Solution:
         trace = set() # 현재 분기에서의 추적 기록
         visit = set() # 전체 분기에서의 방문 기록 남기기
 
-        def dfs(i):
-            # 순환 구조이면 False
-            if i in trace:
-                return False
-
-            # 이미 방문했던 노드이면
-            if i in visit:
-                return True
-    
-            trace.add(i)
-            
-            for y in graph[i]:
-                if not dfs(y):
-                    return False
-            
-            # 자력 x
-class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        graph = collections.defaultdict(list)
-        
-        # 그래프 구성
-        for key, value in prerequisites:
-            graph[key].append(value)
-
-        trace = set() # 현재 분기에서의 추적 기록
-        visit = set() # 전체 분기에서의 방문 기록 남기기
-
         def dfs(node):
             # 순환 구조이면 False
             if node in trace:
