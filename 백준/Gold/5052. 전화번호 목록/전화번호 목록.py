@@ -22,6 +22,7 @@ for _ in range(tests):
     prefix = False
     for i in range(test - 1):
         # 인접한 두 케이스끼리만 비교
+        # 문자열 사전순으로 정렬되어 있기 때문에 i 요소 길이만큼 슬라이싱해서 i+1 요소와 비교
         if cases[i] == cases[i + 1][:len(cases[i])]:
             prefix = True
             break
