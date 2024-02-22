@@ -16,6 +16,7 @@ for _ in range(count):
     frequency_map[num] += 1
 
 sorted_nums = sorted(nums)
+# reversed=True는 빈도수 오름차순, 숫자 오름차순 둘 다 / 음수배는 빈도수만 내림차순, 숫자 오름차순
 sorted_frequency = sorted(frequency_map, key=lambda x: (-frequency_map[x], x))
 
 ## 산술평균
