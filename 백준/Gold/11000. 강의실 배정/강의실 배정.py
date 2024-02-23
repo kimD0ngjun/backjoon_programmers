@@ -18,7 +18,8 @@ lectures.sort(key=lambda x: x[0])
 count = 0
 heap = []
 
-# 가장 일찍 끝나는 강의의 끝나는 시간 먼저 할당
+# 가장 일찍 시작하는 강의의 끝나는 시간 먼저 할당
+# 가장 일찍 시작하는 강의부터 이어지는 강의들 확인
 heapq.heappush(heap, lectures[0][1])
 
 for i in range(1, cases):
