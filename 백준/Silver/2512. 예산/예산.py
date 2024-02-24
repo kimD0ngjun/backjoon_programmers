@@ -8,7 +8,6 @@ count = int(sys_input())
 provinces = list(map(int, sys_input().split()))
 all_budgets = int(sys_input())
 
-provinces.sort()
 result = 0
 
 # 재귀 커스터마이징 재도전
