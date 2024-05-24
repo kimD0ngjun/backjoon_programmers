@@ -1,21 +1,10 @@
-import sys
 import heapq
 from collections import defaultdict
 
+# 그래프 초기화
 graph = defaultdict(dict)
 
-
-# 입력 함수
-def sys_input():
-    return sys.stdin.readline().strip()
-
-
-# 입력 함수
-def sys_input():
-    return sys.stdin.readline().strip()
-
-
-# 다익스트라 함수
+# 다익스트라 함수 + bfs
 def dijkstra(maps, length):
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
@@ -31,7 +20,7 @@ def dijkstra(maps, length):
     while queue:
         cur_weight, x, y = heapq.heappop(queue)
 
-        # 도착 백트랙킹(?)
+        # 도착 제어
         if x == length - 1 and y == length - 1:
             return min_distances[x][y]
 
@@ -52,7 +41,7 @@ count = 0
 results = []
 
 while True:
-    length = int(sys_input())
+    length = int(input())
 
     if length == 0:
         break
