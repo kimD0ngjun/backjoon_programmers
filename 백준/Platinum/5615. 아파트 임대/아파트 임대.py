@@ -90,9 +90,9 @@ for _ in range(cases):
     for i in [2, 3, 5, 11]:
         if mr.test(N, i):
             continue
-        else:
-            temp = False
-            break
+ 
+        temp = False
+        break
 
     if temp:
         count += 1
