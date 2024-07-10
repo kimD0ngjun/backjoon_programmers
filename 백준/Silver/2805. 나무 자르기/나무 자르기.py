@@ -1,10 +1,4 @@
-import sys
-
-# 입력 함수
-def sys_input():
-    return sys.stdin.readline().strip()
-
-# 재귀 커스터마이징 재도전
+# 이진 탐색
 def binary_search(trees, need, minimum, maximum):
     if minimum > maximum:
         return maximum
@@ -22,8 +16,8 @@ def binary_search(trees, need, minimum, maximum):
         return binary_search(trees, need, minimum, cut - 1)
 
 
-count, need = map(int, sys_input().split())
-trees = list(map(int, sys_input().split()))
+count, need = map(int, input().split())
+trees = list(map(int, input().split()))
 
 trees.sort()
 maximum = max(trees)
