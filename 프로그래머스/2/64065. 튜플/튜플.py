@@ -17,9 +17,9 @@ def solution(s):
     # print(array_b)
 
     # 모든 요소의 합집합 연산
-    union = set()
-    for set_element in array_b:
-        union = union.union(set_element)
+    # union = set()
+    # for set_element in array_b:
+    #     union = union.union(set_element)
     # print(list(union))
 
     # 각 요소가 등장한 횟수를 세기
@@ -34,7 +34,7 @@ def solution(s):
     print(result)
     return result
 
-
+# 
 # solution("{{2},{2,1},{2,1,3},{2,1,3,4}}")
 # solution("{{1,2,3},{2,1},{1,2,4,3},{2}}")
 # solution("{{20,111},{111}}")
