@@ -13,7 +13,7 @@ def recursion(n):
     if n in memo:
         return memo[n]
 
-    memo[n] = recursion(n - 1) + recursion(n - 5)
+    memo[n] = recursion(n - 2) + recursion(n - 3)
     return memo[n]
 
 
