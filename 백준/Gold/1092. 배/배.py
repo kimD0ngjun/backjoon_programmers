@@ -1,13 +1,20 @@
 """
 https://www.acmicpc.net/problem/1092
 """
+import sys
+
+
+def sys_input():
+    return sys.stdin.readline().rstrip()
+
+
 # 입력
 N = int(input())
-cranes = list(map(int, input().split()))
+cranes = list(map(int, sys_input().split()))
 cranes.sort(reverse=True)
 
 M = int(input())
-boxes = list(map(int, input().split()))
+boxes = list(map(int, sys_input().split()))
 boxes.sort(reverse=True)
 
 """
@@ -22,21 +29,22 @@ time = 0
 # -1이 출력되는 케이스는 최대중량 박스가 최대적재능력 크레인보다 더 클 때 아닌가
 if boxes[0] > cranes[0]:
     print(-1)
-    exit()
-
-while len(boxes) > 0:
-    # 현재 크레인의 마지막 작업 추적 포인트
-    point = 0
-
-    for crane in cranes:
-        for i in range(point, len(boxes)):
-            box = boxes[i]
-
-            if crane >= box:
-                point = i
-                boxes.remove(box)
-                break
-
-    time += 1
-
-print(time)
+else:
+    while boxes:
+        # 현재 크레인의 마지막 작업 추적 포인트
+        point = 0
+    
+        for crane in cranes:
+            # 나름의 최적화
+            if boxes and crane < boxes[-1]:
+                continue
+    
+            for box in boxes:
+    
+                if crane >= box:
+                    boxes.remove(box)
+                    break
+    
+        time += 1
+    
+    print(time)
