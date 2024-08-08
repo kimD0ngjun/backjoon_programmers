@@ -54,7 +54,7 @@ for i in range(K):
         for cur_equipment in tab:
             find = False  # 찾았니?
 
-            # 마지막 인덱스에서 현재 인덱스까지 역순 탐색
+            # 마지막 인덱스까지 기구 탐색
             for j in range(i + 1, K):
                 # 플러그에 꽂힌 기구를 향후 사용예정기구들 중에서 찾음
                 if equipments[j] == cur_equipment:
