@@ -2,11 +2,9 @@
 https://www.acmicpc.net/problem/1339
 """
 import heapq
-import sys
 
 
-# 입력
-# 그래프 생성 함수
+# dijkstra
 def dijkstra(start, graph, min_distances):
     queue = []
     heapq.heappush(queue, [0, start])
@@ -27,10 +25,10 @@ def dijkstra(start, graph, min_distances):
                 heapq.heappush(queue, [updated_distance, adj_vertex])
 
 
-# Read input
+# 입력
 N, E = map(int, input().split())
 
-# Initialize graph
+# 그래프 초기화
 graph = [[] for _ in range(N + 1)]
 
 for _ in range(E):
