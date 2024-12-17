@@ -48,7 +48,7 @@ public class Main {
             }
 
             dijkstra(s); // 최단 경로(들) 찾고
-            bfs(d); // 최단 경로(들) 삭제하고
+            bfs(d); // 최단 경로(들) 삭제(경로 간선 가중치 INF로 고정)하고
             dijkstra(s); // 다음 최단 경로인 '거의 최단 경로' 다시 찾기
 
             results.add(distances[d]);
