@@ -77,8 +77,8 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "kimD0ngjun"
+          git config --global user.email "chickentasty0112@gmail.com"
 
           git add .
           git commit -m "$COMMIT_MSG" || echo "No changes to commit"
