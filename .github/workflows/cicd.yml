@@ -1,0 +1,26 @@
+name: LeetHub Setting
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check if LeetHub Commit
+        id: check_leethub
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B | tail -n 1)
+          echo "Latest commit message: $COMMIT_MSG"
+          
+          if [[ "$COMMIT_MSG" == *"- LeetHub" ]]; then
+            echo "leet=true" >> $GITHUB_OUTPUT
+          else
+            echo "leet=false" >> $GITHUB_OUTPUT
+            
+        shell: bash
