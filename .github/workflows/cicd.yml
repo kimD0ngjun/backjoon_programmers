@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
 
+permissions:
+  contents: write
+
 jobs:
   detect:
     runs-on: ubuntu-latest
@@ -79,7 +82,7 @@ jobs:
       - name: Commit and Push
         run: |
           COMMIT_MSG="${{ needs.detect.outputs.commit_msg }}"
-          echo "커밋 메세지 확인: $COMMIG_MSG"
+          echo "커밋 메세지 확인: $COMMIT_MSG"
         
           git config --global user.name "kimD0ngjun"
           git config --global user.email "chickentasty0112@gmail.com"
