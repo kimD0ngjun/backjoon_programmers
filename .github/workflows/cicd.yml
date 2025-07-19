@@ -17,10 +17,9 @@ jobs:
         run: |
           COMMIT_MSG=$(git log -1 --pretty=%B | tail -n 1)
           echo "Latest commit message: $COMMIT_MSG"
-          
+    
           if [[ "$COMMIT_MSG" == *"- LeetHub" ]]; then
-            echo "leet=true" >> $GITHUB_OUTPUT
+            echo "LeetHub commit detected ✅"
           else
-            echo "leet=false" >> $GITHUB_OUTPUT
-            
-        shell: bash
+            echo "Not a LeetHub commit ❌"
+          fi
