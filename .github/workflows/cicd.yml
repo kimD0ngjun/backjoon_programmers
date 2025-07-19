@@ -7,6 +7,9 @@ on:
 jobs:
   detect:
     runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check_leethub.outputs.should_run }}
+      package_name: ${{ steps.detect_package.outputs.PACKAGE_NAME }}
 
     steps:
       - name: Checkout
@@ -17,9 +20,39 @@ jobs:
         run: |
           COMMIT_MSG=$(git log -1 --pretty=%B | tail -n 1)
           echo "Latest commit message: $COMMIT_MSG"
-    
-          if [[ "$COMMIT_MSG" == *"- LeetHub" ]]; then
-            echo "LeetHub commit detected ✅"
+
+          if [[ "$COMMIT_MSG" == Time:* && "$COMMIT_MSG" == *"- LeetHub" ]]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            echo "LeetHub 커밋 확인, 패키지 이사 작업 준비 ✅"
           else
-            echo "Not a LeetHub commit ❌"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            echo "작업 없이 패스하면 됩니다 ❌"
           fi
+
+      - name: Detect New Solve Package
+        id: detect_package
+        if: steps.check_leethub.outputs.should_run == 'true'
+        run: |
+          EXCLUDE_DIRS=("LeetCode" "백준" "프로그래머스" ".github")
+          NEW_DIRS=$(git diff --name-only HEAD~1 HEAD | awk -F/ 'NF==2 {print $1}' | sort -u)
+
+          for DIR in $NEW_DIRS; do
+            SKIP=false
+            for EX in "${EXCLUDE_DIRS[@]}"; do
+              if [[ "$DIR" == "$EX" ]]; then
+                SKIP=true
+                break
+              fi
+            done
+
+            if [[ "$SKIP" == false ]]; then
+              echo "새로 추가된 문제풀이 패키지명: $DIR"
+              echo "PACKAGE_NAME=$DIR" >> $GITHUB_OUTPUT
+              break
+            fi
+          done
+
+  move:
+    needs: detect
+    if: ${{ needs.detect.outputs.should_run == 'true' && needs.detect.outputs.package_name != '' }}
+    runs-on: ubuntu-latest
