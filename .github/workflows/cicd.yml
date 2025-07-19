@@ -71,7 +71,6 @@ jobs:
       - name: Move Directory
         run: |
           PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
-          COMMIT_MSG="${{ needs.detect.outputs.commit_msg }}"
           echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
 
           # 실제 이동
@@ -79,6 +78,9 @@ jobs:
 
       - name: Commit and Push
         run: |
+          COMMIT_MSG="${{ needs.detect.outputs.commit_msg }}"
+          echo "커밋 메세지 확인: $COMMIG_MSG"
+        
           git config --global user.name "kimD0ngjun"
           git config --global user.email "chickentasty0112@gmail.com"
 
