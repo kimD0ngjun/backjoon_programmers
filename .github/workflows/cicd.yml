@@ -56,3 +56,8 @@ jobs:
     needs: detect
     if: ${{ needs.detect.outputs.should_run == 'true' && needs.detect.outputs.package_name != '' }}
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Show package name to move
+        run: |
+          echo "이사할 패키지명: ${{ needs.detect.outputs.package_name }}"
