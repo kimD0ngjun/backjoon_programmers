@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 2 # 이전 로그 2개까지 해서 변경점 비교(디폴트는 1)
 
       - name: Check if LeetHub Commit
         id: check_leethub
@@ -60,6 +60,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show package name to move
+      - name: Move Directory
         run: |
-          echo "이사할 패키지명: ${{ needs.detect.outputs.package_name }}"
+          PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
+          echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
+
+          # 목적지 디렉토리 (예: LeetCode)
+          TARGET_DIR="LeetCode/$PACKAGE_NAME"
+
+          # 디렉토리가 존재하지 않으면 생성
+          mkdir -p "$(dirname "$TARGET_DIR")"
+
+          # 실제 이동
+          git mv "$PACKAGE_NAME" "$TARGET_DIR"
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "자동 이사: $PACKAGE_NAME -> LeetCode/$PACKAGE_NAME" || echo "No changes to commit"
+          git push
