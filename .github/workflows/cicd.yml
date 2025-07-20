@@ -74,10 +74,18 @@ jobs:
       - name: Move Directory
         run: |
           PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
+          DEST_DIR="LeetCode/$PACKAGE_NAME"
           echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
-
-          # 실제 이동
-          git mv "$PACKAGE_NAME" "LeetCode/$PACKAGE_NAME"
+      
+          if [ -d "$DEST_DIR" ]; then
+            echo "$DEST_DIR 디렉토리가 이미 존재, 내부 파일만 이동"
+            # 내부 파일만 이동
+            mv "$PACKAGE_NAME"/* "$DEST_DIR"/
+            rm -r "$PACKAGE_NAME"
+          else
+            echo "$DEST_DIR 디렉토리가 존재하지 않음(처음 푼 문제), 디렉토리 전체 이동"
+            mv "$PACKAGE_NAME" "LeetCode/"
+          fi
 
       - name: Commit and Push
         run: |
