@@ -60,6 +60,30 @@ jobs:
             fi
           done
 
+      - name: Extract LEVEL from README
+        id: extract_level
+        if: steps.check_leethub.outputs.should_run == 'true' && steps.detect_package.outputs.PACKAGE_NAME != ''
+        run: |
+          PACKAGE_NAME="${{ steps.detect_package.outputs.PACKAGE_NAME }}"
+          README_PATH="$PACKAGE_NAME/README.md"
+          
+          if [ ! -f "$README_PATH" ]; then
+            echo "README.md 파일 없음 ❌"
+            echo "leetcode_level=UNKNOWN" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # h3 태그 안에서 난이도 추출
+          LEVEL=$(grep -oP '(?<=<h3>).*?(?=</h3>)' "$README_PATH" | head -n 1)
+
+          # 없으면 fallback
+          if [ -z "$LEVEL" ]; then
+            LEVEL="UNKNOWN"
+          fi
+
+          echo "LeetCode 문제 난이도: $LEVEL"
+          echo "leetcode_level=$LEVEL" >> $GITHUB_OUTPUT
+
   move:
     needs: detect
     if: ${{ needs.detect.outputs.should_run == 'true' && needs.detect.outputs.package_name != '' }}
@@ -74,17 +98,25 @@ jobs:
       - name: Move Directory
         run: |
           PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
-          DEST_DIR="LeetCode/$PACKAGE_NAME"
+          LEVEL_DIRECTORY="${{ needs.detect.outputs.level }}"
+          DEST_DIR="LeetCode/$PACKAGE_NAME/$LEVEL_DIRECTORY"
+  
           echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
+          echo "레벨 디렉토리 확인: $LEVEL_DIRECTORY"
+          echo "최종 목적지: $DEST_DIR"
+
+          # 없으면 해당 경로 디렉토리 생성
+          mkdir -p "$DEST_DIR"
       
-          if [ -d "$DEST_DIR" ]; then
-            echo "$DEST_DIR 디렉토리가 이미 존재, 내부 파일만 이동"
-            # 내부 파일만 이동
-            mv "$PACKAGE_NAME"/* "$DEST_DIR"/
-            rm -r "$PACKAGE_NAME"
+          # 디렉토리 내부로 옮기기, 폴더가 없으면 폴더 자체를 옮기고, 폴더가 있으면 파일만 옮기기
+          if [ -d "$DEST_DIR/$PACKAGE_NAME" ]; then
+            echo "$DEST_DIR/$PACKAGE_NAME 디렉토리 이미 존재"
+            echo "→ 기존 디렉토리에 파일만 병합 이동."
+            mv "$PACKAGE_NAME"/* "$DEST_DIR/$PACKAGE_NAME/"
+            rmdir "$PACKAGE_NAME" || true
           else
-            echo "$DEST_DIR 디렉토리가 존재하지 않음(처음 푼 문제), 디렉토리 전체 이동"
-            mv "$PACKAGE_NAME" "LeetCode/"
+            echo "새 디렉토리로 이동: $DEST_DIR/$PACKAGE_NAME"
+            mv "$PACKAGE_NAME" "$DEST_DIR/"
           fi
 
       - name: Commit and Push
