@@ -61,7 +61,7 @@ jobs:
             fi
           done
 
-      - name: Extract LEVEL from README
+      - name: Extract Level from README
         id: extract_level
         if: steps.check_leethub.outputs.should_run == 'true' && steps.detect_package.outputs.PACKAGE_NAME != ''
         run: |
@@ -70,7 +70,7 @@ jobs:
           
           if [ ! -f "$README_PATH" ]; then
             echo "README.md 파일 없음 ❌"
-            echo "leetcode_level=UNKNOWN" >> $GITHUB_OUTPUT
+            echo "leetcode_level=Unknown" >> $GITHUB_OUTPUT
             exit 0
           fi
 
