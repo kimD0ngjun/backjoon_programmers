@@ -95,28 +95,39 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-    
+          
       - name: Move Directory
         run: |
           PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
           LEVEL_DIRECTORY="${{ needs.detect.outputs.level }}"
-          DEST_DIR="LeetCode/$LEVEL_DIRECTORY"
-  
-          echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
-          echo "레벨 디렉토리 확인: $LEVEL_DIRECTORY"
-          echo "최종 목적지: $DEST_DIR"
-
-          # 없으면 해당 경로 디렉토리 생성
-          mkdir -p "$DEST_DIR"
+          ROOT_DIR="LeetCode"
       
-          # 디렉토리 내부로 옮기기, 폴더가 없으면 폴더 자체를 옮기고, 폴더가 있으면 파일만 옮기기
-          if [ -d "$DEST_DIR/$PACKAGE_NAME" ]; then
-            echo "기존 디렉토리로 파일만 이동"
-            mv "$PACKAGE_NAME"/* "$DEST_DIR/$PACKAGE_NAME/"
+          echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
+          echo "감지된 레벨: $LEVEL_DIRECTORY"
+      
+          # 먼저 기존에 동일한 디렉토리 위치가 있는지 탐색
+          FOUND_EXISTING_PATH=""
+          for dir in "$ROOT_DIR"/*; do
+            if [ -d "$dir/$PACKAGE_NAME" ]; then
+              FOUND_EXISTING_PATH="$dir"
+              echo "기존 디렉토리 발견: $dir/$PACKAGE_NAME"
+              break
+            fi
+          done
+      
+          # 기존 위치로 이동
+          if [ -n "$FOUND_EXISTING_PATH" ]; then
+            DEST="$FOUND_EXISTING_PATH/$PACKAGE_NAME"
+            echo "→ 기존 디렉토리로 병합 이동: $DEST"
+            mv "$PACKAGE_NAME"/* "$DEST"/
             rmdir "$PACKAGE_NAME" || true
+      
+          # 새로 이동해야 할 경우
           else
-            echo "폴더 전체를 이동"
-            mv "$PACKAGE_NAME" "$DEST_DIR/"
+            DEST="$ROOT_DIR/$LEVEL_DIRECTORY/$PACKAGE_NAME"
+            echo "→ 새 디렉토리로 이동: $DEST"
+            mkdir -p "$ROOT_DIR/$LEVEL_DIRECTORY"
+            mv "$PACKAGE_NAME" "$ROOT_DIR/$LEVEL_DIRECTORY/"
           fi
 
       - name: Commit and Push
