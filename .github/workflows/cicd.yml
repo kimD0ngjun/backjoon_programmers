@@ -14,6 +14,7 @@ jobs:
       should_run: ${{ steps.check_leethub.outputs.should_run }}
       package_name: ${{ steps.detect_package.outputs.PACKAGE_NAME }}
       commit_msg: ${{ steps.check_leethub.outputs.commit_msg }}
+      level: ${{ steps.extract_level.outputs.leetcode_level }}
 
     steps:
       - name: Checkout
@@ -78,7 +79,7 @@ jobs:
 
           # 없으면 fallback
           if [ -z "$LEVEL" ]; then
-            LEVEL="UNKNOWN"
+            LEVEL="Unknown"
           fi
 
           echo "LeetCode 문제 난이도: $LEVEL"
@@ -99,7 +100,7 @@ jobs:
         run: |
           PACKAGE_NAME="${{ needs.detect.outputs.PACKAGE_NAME }}"
           LEVEL_DIRECTORY="${{ needs.detect.outputs.level }}"
-          DEST_DIR="LeetCode/$PACKAGE_NAME/$LEVEL_DIRECTORY"
+          DEST_DIR="LeetCode/$LEVEL_DIRECTORY"
   
           echo "옮겨야 할 패키지 확인: $PACKAGE_NAME"
           echo "레벨 디렉토리 확인: $LEVEL_DIRECTORY"
@@ -110,12 +111,11 @@ jobs:
       
           # 디렉토리 내부로 옮기기, 폴더가 없으면 폴더 자체를 옮기고, 폴더가 있으면 파일만 옮기기
           if [ -d "$DEST_DIR/$PACKAGE_NAME" ]; then
-            echo "$DEST_DIR/$PACKAGE_NAME 디렉토리 이미 존재"
-            echo "→ 기존 디렉토리에 파일만 병합 이동."
+            echo "기존 디렉토리로 파일만 이동"
             mv "$PACKAGE_NAME"/* "$DEST_DIR/$PACKAGE_NAME/"
             rmdir "$PACKAGE_NAME" || true
           else
-            echo "새 디렉토리로 이동: $DEST_DIR/$PACKAGE_NAME"
+            echo "폴더 전체를 이동"
             mv "$PACKAGE_NAME" "$DEST_DIR/"
           fi
 
