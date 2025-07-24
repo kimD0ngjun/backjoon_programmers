@@ -1,21 +1,34 @@
-sequence = int(input())
-answer = []
+# time 1s, memory 128 MB
+T = int(input())
 
-for i in range(sequence):
-    ps = input()
+"""
+1. line의 "("와 ")"의 개수는 같아야 한다
+2. "(())"는 유효하지만, "))(("는 유효하지 않다(이하 IN = "(", OUT = ")")
+3. IN이 등장하면 push, OUT이 등장하면 pop
+"""
+
+IN = "("
+OUT = ")"
+answers = []
+
+for _ in range(T):
+    line = input()
     stack = []
+    result = "YES"
 
-    for p in ps:
-        if p == '(':
-            stack.append(p)
-        else:
-            if stack:
+    for e in line:
+        try:
+            if e == IN:
+                stack.append(e)
+            elif e == OUT:
                 stack.pop()
-            else:
-                stack.append(p) # 오답 체킹용 임의 푸시
-                break
+        except IndexError:
+            result = "NO"
+            break
 
-    result = "NO" if stack else "YES"
-    answer.append(result)
-    
-print("\n".join(answer))
+    if len(stack) > 0:
+        result = "NO"
+
+    answers.append(result)
+
+print(*answers, sep="\n")
