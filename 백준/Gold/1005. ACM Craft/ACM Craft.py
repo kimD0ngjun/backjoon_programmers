@@ -1,24 +1,24 @@
-"""
-파이썬 50% 시간초과...
-"""
+import sys
 from collections import deque
 
-T = int(input())
+sys_input = sys.stdin.readline
+
+T = int(sys_input())
 answers = []
 
 for _ in range(T):
 
-    N, M = map(int, input().split())  # N : 노드 갯수, M : 간선 갯수
+    N, M = map(int, sys_input().split())  # N : 노드 갯수, M : 간선 갯수
     graph = [[] for _ in range(N + 1)]
     entry_sizes = [0] * (N + 1)  # 진입값 사이즈
-    times = [0] + list(map(int, input().split()))
+    times = [0] + list(map(int, sys_input().split()))
 
     for _ in range(M):
-        a, b = map(int, input().split())
+        a, b = map(int, sys_input().split())
         graph[a].append(b)
         entry_sizes[b] += 1  # 진입되는 간선 카운팅
 
-    end = int(input())
+    end = int(sys_input())
 
     """
     칸 알고리즘 기반 위상정렬(BFS 차용) + DP
