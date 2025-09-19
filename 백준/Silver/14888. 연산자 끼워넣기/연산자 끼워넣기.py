@@ -1,60 +1,41 @@
-# N, M = map(int, input().split())
-#
-#
-# def backtrack(N, M, sequence, start):
-#
-#     if len(sequence) == M:
-#         print(" ".join(map(str, sequence)))
-#         return
-#
-#     for i in range(start, N + 1):
-#         sequence.append(i)
-#         backtrack(N, M, sequence, i)
-#         sequence.pop()
-#
-#
-# backtrack(N, M, [], 1)
-from collections import deque
+import sys
 
 N = int(input())
-numbers = deque(list(map(int, input().split())))
-symbols = list(map(int, input().split()))
+sequence = list(map(int, input().split()))
+operator = list(map(int, input().split()))
 
-max_answer = -1_000_000_000
-min_answer = 1_000_000_000
+min_value = sys.maxsize
+max_value = - sys.maxsize
 
+def backtrack(value, idx, pl, mi, mu, di):
+    global min_value, max_value
 
-def backtrack(numbers, symbols, value):
-    global max_answer, min_answer
-
-    if len(numbers) == 0:
-        max_answer = max(max_answer, value)
-        min_answer = min(min_answer, value)
+    if pl + mi + mu + di == 0:
+        max_value = max(max_value, value)
+        min_value = min(min_value, value)
         return
 
-    for i in range(4):
-        if symbols[i] == 0:
-            continue
+    if pl > 0:
+        value += sequence[idx]
+        backtrack(value, idx + 1, pl - 1, mi, mu, di)
+        value -= sequence[idx]
 
-        temp = numbers[0]
-        numbers.popleft()
-        symbols[i] -= 1
+    if mi > 0:
+        value -= sequence[idx]
+        backtrack(value, idx + 1, pl, mi - 1, mu, di)
+        value += sequence[idx]
 
-        if i == 0:
-            backtrack(numbers, symbols, value + temp)
-        elif i == 1:
-            backtrack(numbers, symbols, value - temp)
-        elif i == 2:
-            backtrack(numbers, symbols, value * temp)
-        elif i == 3:
-            backtrack(numbers, symbols, int(value / temp))
+    if mu > 0:
+        value *= sequence[idx]
+        backtrack(value, idx + 1, pl, mi, mu - 1, di)
+        value = int(value / sequence[idx])
 
-        numbers.appendleft(temp)
-        symbols[i] += 1
+    if di > 0:
+        value /= sequence[idx]
+        backtrack(int(value), idx + 1, pl, mi, mu, di - 1)
+        value *= sequence[idx]
 
+backtrack(sequence[0], 1, operator[0], operator[1], operator[2], operator[3])
 
-initial_value = numbers.popleft()
-backtrack(numbers, symbols, initial_value)
-
-print(max_answer)
-print(min_answer)
+print(max_value)
+print(min_value)
