@@ -1,7 +1,8 @@
 # https://www.acmicpc.net/problem/12015
-import sys
-
-input = sys.stdin.readline
+# import sys
+#
+# input = sys.stdin.readline
+from bisect import bisect_left
 
 N = int(input())
 A = list(map(int, input().split()))
@@ -21,18 +22,19 @@ memo = []
 for el in A:
     # 이진 탐색
     # memo에서 수열 요소 el이 들어갈 자리를 찾는다
-    low = 0 # 분기당 memo 낮은 idx
-    high = len(memo) - 1 # 분기당 memo 높은 idx
-    # temp_idx = 1
-
-    while low <= high:
-        # print(f"{temp_idx} 단계")
-        mid = (low + high) // 2
-
-        if memo[mid] < el:
-            low = mid + 1
-        else:
-            high = mid - 1
+    # low = 0 # 분기당 memo 낮은 idx
+    # high = len(memo) - 1 # 분기당 memo 높은 idx
+    # # temp_idx = 1
+    #
+    # while low <= high:
+    #     # print(f"{temp_idx} 단계")
+    #     mid = (low + high) // 2
+    #
+    #     if memo[mid] < el:
+    #         low = mid + 1
+    #     else:
+    #         high = mid - 1
+    low = bisect_left(memo, el)
 
     # print(f"도출된 memo : {memo}\n도출된 인덱스 : {low}\nmemo 밖의 값인가? : {low >= len(memo)}")
 
